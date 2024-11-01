@@ -6,6 +6,7 @@ import com.ram.techtest.news.data.model.Sources
 import com.ram.techtest.news.data.network.NetworkResult
 import com.ram.techtest.news.domain.SourceListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -21,7 +22,7 @@ class SourceViewModel @Inject constructor(
 
 
     fun fetchSources() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getSourceListUseCase.getSourceList().collect { result ->
                 _sourcesResult.value = result // Collect and emit each state
             }

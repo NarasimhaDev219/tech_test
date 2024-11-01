@@ -6,6 +6,7 @@ import com.ram.techtest.news.data.model.Article
 import com.ram.techtest.news.data.network.NetworkResult
 import com.ram.techtest.news.domain.SourceDetailsListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -21,7 +22,7 @@ class SourceDetailsViewModel @Inject constructor(
 
 
     fun fetchSourceDetails(sourceId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getSourceDetailsListUseCase.getSourceDetailsList(sourceId).collect { result ->
                 _articlesResult.value = result
             }
