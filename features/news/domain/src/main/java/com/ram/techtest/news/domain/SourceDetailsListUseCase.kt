@@ -9,7 +9,7 @@ import javax.inject.Inject
 class SourceDetailsListUseCase @Inject constructor(
     private val sourceRepository: SourceDetailsRepository
 ) {
-    suspend fun getSourceDetailsList(): Flow<NetworkResult<List<Article>>> {
-        return sourceRepository.sourceDetailsList()
+    suspend fun getSourceDetailsList(sourceId: String): Flow<NetworkResult<List<Article>>> {
+        return sourceRepository.sourceDetailsList(sourceId)
     }
 }

@@ -5,6 +5,6 @@ import com.ram.techtest.news.data.network.NetworkResult
 import kotlinx.coroutines.flow.Flow
 
 interface SourceDetailsRepository {
-    suspend fun sourceDetailsList(): Flow<NetworkResult<List<Article>>>
+    suspend fun sourceDetailsList(sourceId: String): Flow<NetworkResult<List<Article>>>
 
 }

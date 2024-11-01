@@ -25,8 +25,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.ram.techtes.theme.Screens
 import com.ram.techtes.theme.ui.CircularProgressBar
 import com.ram.techtes.theme.ui.CustomAppBar
 import com.ram.techtest.news.data.model.Sources
@@ -57,7 +59,9 @@ fun SourceScreen(viewModel: SourceViewModel, navController: NavHostController) {
                 }
                 is NetworkResult.Success<*> -> {
                     val sources = (sourcesResult as NetworkResult.Success<List<Sources>>).data
-                    SourcesList(navController, sources, innerPadding)
+                    SourcesList(sources, innerPadding) { source ->
+                        navController.navigate("source_details/${source.id}")
+                    }
                 }
                 is NetworkResult.Failure -> {
                     val message = (sourcesResult as NetworkResult.Failure).msg
@@ -77,23 +81,28 @@ fun SourceScreen(viewModel: SourceViewModel, navController: NavHostController) {
 
 @Composable
 fun SourcesList(
-    navController: NavHostController,
     sources: List<Sources>,
-    innerPadding: PaddingValues
+    innerPadding: PaddingValues,
+    onItemClick: (Sources) -> Unit
 ) {
-    LazyColumn(
-        contentPadding = innerPadding
-    ) {
-        items(sources) { source ->
-            SourceItem(navController, source)
+    LazyColumn(contentPadding = innerPadding) {
+        items(
+            items = sources,
+            key = { it.id }
+        ) { source ->
+            SourceItem(
+                source = source,
+                onClick = { onItemClick(source) }
+            )
         }
     }
 }
 
 @Composable
-fun SourceItem(navController: NavHostController, source: Sources) {
+fun SourceItem(source: Sources, onClick: () -> Unit) {
+    val context= LocalContext.current.applicationContext
     ElevatedCard(
-        onClick = {navController.navigate("SourceDetailsScreen")},
+        onClick = {onClick.invoke()},
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),

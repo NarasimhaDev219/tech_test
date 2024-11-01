@@ -34,12 +34,12 @@ import com.ram.techtest.news.data.network.NetworkResult
 import com.ram.techtest.news.viewmodel.SourceDetailsViewModel
 
 @Composable
-fun SourceDetailsScreen(viewModel: SourceDetailsViewModel, navController: NavHostController) {
+fun SourceDetailsScreen(viewModel: SourceDetailsViewModel, navController: NavHostController, sourceId: String?) {
 
     val articlesResult by viewModel.articlesResult.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.fetchSourceDetails()
+        viewModel.fetchSourceDetails(sourceId?:"abc-news")
     }
 
     // Main layout

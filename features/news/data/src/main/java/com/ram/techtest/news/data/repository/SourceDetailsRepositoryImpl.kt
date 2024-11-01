@@ -13,10 +13,10 @@ class SourceDetailsRepositoryImpl @Inject constructor(
     private val networkService: NetworkService
 ) : SourceDetailsRepository {
 
-    override suspend fun sourceDetailsList(): Flow<NetworkResult<List<Article>>> = flow {
+    override suspend fun sourceDetailsList(sourceId: String): Flow<NetworkResult<List<Article>>> = flow {
         emit(NetworkResult.Loading) // Emit loading state
         try {
-            val response = networkService.getSourceDetails()
+            val response = networkService.getSourceDetails(sourcesId = sourceId)
             val articles = response.articles
 
             if (!articles.isNullOrEmpty()) {

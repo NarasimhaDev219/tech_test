@@ -20,9 +20,9 @@ class SourceDetailsViewModel @Inject constructor(
     val articlesResult: StateFlow<NetworkResult<List<Article>>> get() = _articlesResult
 
 
-    fun fetchSourceDetails() {
+    fun fetchSourceDetails(sourceId: String) {
         viewModelScope.launch {
-            getSourceDetailsListUseCase.getSourceDetailsList().collect { result ->
+            getSourceDetailsListUseCase.getSourceDetailsList(sourceId).collect { result ->
                 _articlesResult.value = result
             }
         }

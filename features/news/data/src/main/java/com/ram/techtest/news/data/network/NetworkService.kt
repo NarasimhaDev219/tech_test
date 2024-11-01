@@ -14,7 +14,7 @@ interface NetworkService {
 
     @GET("v2/top-headlines")
     suspend fun getSourceDetails(
-        @Query("sources") sources: String="bbc-news",
+        @Query("sources") sourcesId: String,
         @Query("apiKey") apiKey: String="941e50c6f3ab4329a30fffecf01671cf"
     ): RemoteSourceDetails
 }
