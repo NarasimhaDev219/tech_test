@@ -1,5 +1,6 @@
 package com.ram.techtest.di
 
+import com.ram.techtest.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +16,6 @@ import com.ram.techtest.news.data.network.NetworkService
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "https://newsapi.org/"
-
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
@@ -25,6 +24,18 @@ object NetworkModule {
         }
         return OkHttpClient.Builder()
             .addInterceptor(logging)
+            .addInterceptor { chain ->
+                    val request = chain.request()
+                    val url = request.url
+                    // Add API key as a query parameter
+                    val urlWithApiKey = url.newBuilder()
+                        .addQueryParameter("apiKey", Constants.API_KEY)
+                        .build()
+                    val requestWithApiKey = request.newBuilder()
+                        .url(urlWithApiKey)
+                        .build()
+                    chain.proceed(requestWithApiKey)
+                }
             .build()
     }
 
@@ -32,7 +43,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
