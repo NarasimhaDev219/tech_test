@@ -8,13 +8,10 @@ import retrofit2.http.Query
 interface NetworkService {
 
     @GET("v2/top-headlines/sources")
-    suspend fun getTopHeadlinesSources(
-        @Query("apiKey") apiKey: String="941e50c6f3ab4329a30fffecf01671cf"
-    ): RemoteSource
+    suspend fun getTopHeadlinesSources(): RemoteSource
 
     @GET("v2/top-headlines")
     suspend fun getSourceDetails(
-        @Query("sources") sourcesId: String,
-        @Query("apiKey") apiKey: String="941e50c6f3ab4329a30fffecf01671cf"
+        @Query("sources") sourcesId: String
     ): RemoteSourceDetails
 }
