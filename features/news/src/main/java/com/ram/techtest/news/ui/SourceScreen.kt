@@ -28,7 +28,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.ram.techtes.theme.Screens
 import com.ram.techtes.theme.ui.CircularProgressBar
 import com.ram.techtes.theme.ui.CustomAppBar
 import com.ram.techtest.news.data.model.Sources

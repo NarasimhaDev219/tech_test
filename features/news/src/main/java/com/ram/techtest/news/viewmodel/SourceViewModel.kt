@@ -20,7 +20,6 @@ class SourceViewModel @Inject constructor(
     private val _sourcesResult = MutableStateFlow<NetworkResult<List<Sources>>>(NetworkResult.Loading)
     val sourcesResult: StateFlow<NetworkResult<List<Sources>>> get() = _sourcesResult
 
-
     fun fetchSources() {
         viewModelScope.launch(Dispatchers.IO) {
             getSourceListUseCase.getSourceList().collect { result ->
